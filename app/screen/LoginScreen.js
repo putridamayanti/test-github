@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, AsyncStorage, Button, BackHandler} from 'react-native';
+import {View, AsyncStorage, Button, BackHandler} from 'react-native';
 import OAuth from '../service/OAuth';
 
 export default class LoginScreen extends React.Component {
@@ -22,7 +22,6 @@ export default class LoginScreen extends React.Component {
     }
 
     handleBackButton() {
-        // ToastAndroid.show('Back button is pressed');
         return true;
     }
 

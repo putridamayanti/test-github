@@ -1,8 +1,7 @@
 import React from "react";
-import { AsyncStorage, BackHandler, ScrollView, View, Text, TextInput, Alert } from 'react-native';
+import { AsyncStorage, ScrollView, View, Text } from 'react-native';
 import { ListItem, Button, Icon, Input } from 'react-native-elements'
 import Repo from '../service/Repo';
-import HeaderComponent from "../navigation/HeaderComponent";
 
 export default class RepoScreen extends React.Component {
 
@@ -45,29 +44,12 @@ export default class RepoScreen extends React.Component {
 
     componentDidMount() {
         this.search();
-        // this.props.navigation.setParams({ logout: this.logout() });
-        // console.log(this.state);
-        // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     }
-
-    // componentWillUnmount() {
-    //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    // }
-    //
-    // handleBackButton() {
-    //     // ToastAndroid.show('Back button is pressed');
-    //     return true;
-    // }
 
     async search() {
         this.loading    = true;
         let result = await Repo.getRepo(this.state.query);
         this.setState({ repos: result.items, loading: false });
-    }
-
-    async logout() {
-        await AsyncStorage.setItem('token', '', '');
-        this.props.navigation.navigate('Login');
     }
 
     renderList() {
