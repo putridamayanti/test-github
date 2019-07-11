@@ -9,13 +9,19 @@ export default class RepoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Repository',
+            headerTintColor: '#fff',
             headerLeft: null,
             headerStyle: {
-                backgroundColor: '#f7d88f'
+                backgroundColor: '#538eed'
             },
             headerRight: (
                 <Button
-                    title="Logout"
+                    icon={
+                        <Icon
+                            name="keyboard-tab"
+                            color="white"
+                        />
+                    }
                     onPress={async () => {
                         await AsyncStorage.setItem('token', '', '');
                         navigation.navigate('Login');
@@ -24,13 +30,6 @@ export default class RepoScreen extends React.Component {
                 />
             )
         }
-
-        // header: ({ state }) => ({
-        //     right: <Button
-        //         onPress={state.params.logout}
-        //         title="Logout"
-        //     />
-        // }),
     };
 
     constructor(props) {

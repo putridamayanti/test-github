@@ -1,19 +1,34 @@
 import React from "react";
 import { AsyncStorage, BackHandler, View, Text, Button, ScrollView } from 'react-native';
-import { ListItem, Card } from 'react-native-elements'
+import {ListItem, Card, Icon} from 'react-native-elements'
 import Repo from '../service/Repo';
 import HeaderComponent from "../navigation/HeaderComponent";
 
 export default class CommitScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Commits',
-        headerTintColor: '#fff',
-        headerStyle: {
-            backgroundColor: '#538eed'
-        },
-        headerRight: (
-            <HeaderComponent/>
-        )
+
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Repository',
+            headerTintColor: '#fff',
+            headerStyle: {
+                backgroundColor: '#538eed'
+            },
+            headerRight: (
+                <Button
+                    icon={
+                        <Icon
+                            name="keyboard-tab"
+                            color="white"
+                        />
+                    }
+                    onPress={async () => {
+                        await AsyncStorage.setItem('token', '', '');
+                        navigation.navigate('Login');
+                    }}
+                    type="clear"
+                />
+            )
+        }
     };
 
     constructor(props) {
@@ -54,7 +69,7 @@ export default class CommitScreen extends React.Component {
                                 { this.state.commits.map((item, i) => (
                                     <Card key={i}>
                                         <ListItem
-                                            leftAvatar={{ source: { uri: item.committer.avatar_url !== null ? item.owner.avatar_url : '' } }}
+                                            leftAvatar={{ source: { uri: item.committer.avatar_url !== null ? item.committer.avatar_url : '' } }}
                                             title={item.committer.login}
                                             subtitle={
                                                 <View>
