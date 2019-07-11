@@ -1,17 +1,30 @@
 import React from "react";
 import { AsyncStorage, BackHandler, ScrollView, View, Text, TextInput, Alert } from 'react-native';
-import { ListItem, Button, Icon } from 'react-native-elements'
+import { ListItem, Button, Icon, Input } from 'react-native-elements'
 import Repo from '../service/Repo';
 import HeaderComponent from "../navigation/HeaderComponent";
 
 export default class RepoScreen extends React.Component {
 
-    static navigationOptions = {
-        title: 'Repository',
-        headerLeft: null,
-        headerRight: (
-            <HeaderComponent/>
-        )
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Repository',
+            headerLeft: null,
+            headerStyle: {
+                backgroundColor: '#f7d88f'
+            },
+            headerRight: (
+                <Button
+                    title="Logout"
+                    onPress={async () => {
+                        await AsyncStorage.setItem('token', '', '');
+                        navigation.navigate('Login');
+                    }}
+                    type="clear"
+                />
+            )
+        }
+
         // header: ({ state }) => ({
         //     right: <Button
         //         onPress={state.params.logout}
@@ -48,6 +61,7 @@ export default class RepoScreen extends React.Component {
     // }
 
     async search() {
+        this.loading    = true;
         let result = await Repo.getRepo(this.state.query);
         this.setState({ repos: result.items, loading: false });
     }
@@ -65,7 +79,7 @@ export default class RepoScreen extends React.Component {
                         this.state.repos.map((item, i) => (
                             <ListItem
                                 key={i}
-                                leftAvatar={{ source: { uri: item.owner.avatar_url } }}
+                                leftAvatar={{ source: { uri: item.owner.avatar_url !== null ? item.owner.avatar_url : ''  } }}
                                 title={item.name}
                                 subtitle={item.owner.login}
                                 onPress={() => this.props.navigation.navigate('Commit', {
@@ -81,19 +95,27 @@ export default class RepoScreen extends React.Component {
 
     render() {
         return(
-            <View>
-                <Text>Repo Search</Text>
-                <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            <View style={{ padding: 20 }}>
+                <Input
+                    style={{ marginTop: 30 }}
+                    placeholder='Search Repo'
+                    leftIcon={
+                        <Icon
+                            name='search'
+                            color='black'
+                        />
+                    }
                     onChangeText={(text) => this.setState({query : text})}
                     value={this.state.query}
                 />
                 <Button
+                    style={{ marginTop: 30 }}
+                    color="#d6af51"
                     onPress={this.search}
                     title="Search"
                 />
                 { this.state.loading ?
-                    <Text>Loading</Text> :
+                    <Text style={{ marginTop: 30, textAlign: 'center' }}>Loading</Text> :
                     this.renderList()
                 }
             </View>

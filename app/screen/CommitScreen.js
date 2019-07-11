@@ -1,10 +1,21 @@
 import React from "react";
 import { AsyncStorage, BackHandler, View, Text, Button, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements'
+import { ListItem, Card } from 'react-native-elements'
 import Repo from '../service/Repo';
 import HeaderComponent from "../navigation/HeaderComponent";
 
 export default class CommitScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Commits',
+        headerTintColor: '#fff',
+        headerStyle: {
+            backgroundColor: '#538eed'
+        },
+        headerRight: (
+            <HeaderComponent/>
+        )
+    };
+
     constructor(props) {
         super(props);
 
@@ -41,17 +52,18 @@ export default class CommitScreen extends React.Component {
                         { this.state.commits.length !== 0 ?
                             <View>
                                 { this.state.commits.map((item, i) => (
-                                    <ListItem
-                                        key={i}
-                                        leftAvatar={{ source: { uri: item.committer.avatar_url } }}
-                                        title={item.committer.login}
-                                        subtitle={
-                                            <View>
-                                                <Text>{ item.commit.message }</Text>
-                                                <Text>{ item.commit.committer.date }</Text>
-                                            </View>
-                                        }
-                                    />
+                                    <Card key={i}>
+                                        <ListItem
+                                            leftAvatar={{ source: { uri: item.committer.avatar_url !== null ? item.owner.avatar_url : '' } }}
+                                            title={item.committer.login}
+                                            subtitle={
+                                                <View>
+                                                    <Text>{ item.commit.message }</Text>
+                                                    <Text>{ item.commit.committer.date }</Text>
+                                                </View>
+                                            }
+                                        />
+                                    </Card>
                                 ))}
                             </View>:
                             <Text>No Data</Text>

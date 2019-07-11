@@ -13,12 +13,8 @@ export default class HeaderComponent extends React.Component {
     render() {
         return(
             <Button
-                icon={
-                    <Icon
-                        name="arrow-forward"
-                    />
-                }
-                onPressed={() => this.logout()}
+                title="Logout"
+                onPress={() => this.logout()}
                 type="clear"
             />
         );

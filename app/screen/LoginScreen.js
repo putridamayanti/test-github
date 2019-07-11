@@ -32,8 +32,8 @@ export default class LoginScreen extends React.Component {
 
     render() {
         return(
-          <View>
-              <Button title="Sign In Github" onPress={() => this.login()}/>
+          <View style={{ padding: 20, display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+              <Button title="Sign In Github" color="#d6af51" onPress={() => this.login()}/>
           </View>
         );
     }
